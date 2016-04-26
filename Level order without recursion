@@ -1,0 +1,79 @@
+struct Listnode
+{
+    int data;
+    struct Listnode *next;
+};
+struct Listnode *temp;
+struct Queue
+{
+    struct Listnode *front1;
+    struct Listnode *rear;
+}*q;
+struct tree
+{
+    int data;
+    struct tree *left;
+    struct tree *right;
+};struct tree *temp1;
+
+
+void Levelorder(struct tree *tree1)
+{
+    struct Queue *q;
+    struct tree *tree;
+    q=createqueue();
+   enqueue(q,tree1);
+   while(isEmptyQueue(q))
+    {
+        struct tree *tree;
+        tree=dequeue(q);
+        printf(" Levelorder traversal is %d \n",tree->data);
+        enqueue(q,tree->left);
+        enqueue(q,tree->right);
+    }
+} 
+
+struct Queue *createqueue()
+{
+    struct Queue *q;
+    q=(struct Queue *)malloc(sizeof(struct Queue));
+    q->front1=NULL;
+    q->rear=NULL;
+    return q;
+};
+void enqueue(struct Queue *q, int **data)
+{
+    struct Listnode *newnode;
+    newnode=(struct Listnode *)malloc((sizeof(struct Listnode)));
+    newnode->data=data;
+    newnode->next=NULL;
+    if(q->front1==NULL)
+    {
+        q->front1=newnode;
+        q->rear=q->front1;
+    }
+    else
+    {
+        q->rear->next=newnode;
+        q->rear=q->rear->next;
+
+    }
+}
+
+int dequeue(struct Queue *q)
+{
+    temp=(struct Listnode *)malloc(sizeof(struct Listnode));
+    temp=q->front1;
+    temp1=(struct Listnode *)malloc((sizeof(struct Listnode)));
+    temp1=q->front1->data;
+    if(temp==NULL)
+    {
+        printf(" Queue is empty ");
+    }
+    else
+    {
+     q->front1=q->front1->next;
+    }
+    return temp1;
+
+}
