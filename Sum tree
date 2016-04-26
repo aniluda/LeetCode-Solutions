@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct tree *newnode(int data);
+struct tree
+{
+    int data;
+    struct tree *left;
+    struct tree *right;
+};
+int main()
+{
+    struct tree *root=newnode(1);
+    root->left=newnode(2);
+    root->right=newnode(3);
+    root->left->left=newnode(4);
+    root->left->right=newnode(5);
+    root->right->left=newnode(6);
+    root->right->right=newnode(7);
+    sumtree(root);
+    inorder(root);
+    return 0;
+}
+void inorder(struct tree *root)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    inorder(root->left);
+    printf(" %d",root->data);
+    inorder(root->right);
+}
+int  sumtree(struct tree *tree1)
+{
+    if(tree1==NULL)
+    {
+        return 0;
+    }
+  //  int old_data=tree1->data;
+   tree1->data= tree1->data+sumtree(tree1->left)+sumtree(tree1->right);
+    return tree1->data;
+}
+
+struct tree *newnode(int data)
+{
+    struct tree *tree1=(struct tree *)malloc(sizeof(struct tree));
+    tree1->data=data;
+    tree1->left=NULL;
+    tree1->right=NULL;
+    return tree1;
+};
