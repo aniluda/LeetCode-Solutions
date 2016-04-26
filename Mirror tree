@@ -1,0 +1,86 @@
+struct tree
+{
+    int data;
+    struct tree *left;
+    struct tree *right;
+};struct tree *temp1;
+struct Queue *createqueue()
+{
+    struct Queue *q;
+    q=(struct Queue *)malloc(sizeof(struct Queue));
+    q->front1=NULL;
+    q->rear=NULL;
+    return q;
+};
+void enqueue(struct Queue *q, int **data)
+{
+    struct Listnode *newnode;
+    newnode=(struct Listnode *)malloc((sizeof(struct Listnode)));
+    newnode->data=data;
+    newnode->next=NULL;
+    if(q->front1==NULL)
+    {
+        q->front1=newnode;
+        q->rear=q->front1;
+    }
+    else
+    {
+        q->rear->next=newnode;
+        q->rear=q->rear->next;
+    }
+}
+
+int dequeue(struct Queue *q)
+{
+    temp=(struct Listnode *)malloc(sizeof(struct Listnode));
+    temp=q->front1;
+    temp1=(struct Listnode *)malloc((sizeof(struct Listnode)));
+    temp1=q->front1->data;
+    if(temp==NULL)
+    {
+        printf(" Queue is empty ");
+    }
+    else
+    {
+     q->front1=q->front1->next;
+    }
+    return temp1;
+
+}
+
+int isEmptyQueue(struct Queue *q)
+{
+    if(q->front1==NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+struct tree *Mirror_tree(struct tree *tree1)
+{
+    struct Queue *q;
+    q=createqueue();
+    enqueue(q,tree1);
+    while(isEmptyQueue(q))
+    {
+        struct tree *tree2;
+        tree2=dequeue(q);
+        struct tree *tree3;
+        tree3=tree2->left;
+        tree2->left=tree2->right;
+        tree2->right=tree3;
+        if(tree2->left!=0)
+        {
+            enqueue(q,tree2->left);
+        }
+        if(tree2->right!=0)
+        {
+            enqueue(q,tree2->right);
+        }
+    }
+    return tree1;
+}
