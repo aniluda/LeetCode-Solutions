@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+void print(int path[],int pathlen);
+struct tree *newnode(int data);
+int diameter1=0;
+int max1=0;
+int path[50];
+struct tree
+{
+    int data;
+    struct tree *left;
+    struct tree *right;
+};
+int main()
+{
+    struct tree *tree1=newnode(1);
+    tree1->left=newnode(2);
+    tree1->right=newnode(3);
+    tree1->left->left=newnode(4);
+    tree1->left->right=newnode(5);
+    tree1->right->left=newnode(6);
+    tree1->right->right=newnode(7);
+    diameter(tree1);
+  //  printf(" %d",max1);
+  //  printing(tree1,path,0);
+   // printancestors(tree1,4);
+    return 0;
+}
+int printancestors(struct tree *tree1,int data)
+{
+    if(tree1==NULL)
+    {
+        return;
+    }
+    if(tree1->data==data)
+    {
+        return 1;
+    }
+    if(printancestors(tree1->left,data) || printancestors(tree1->right,data))
+    {
+        printf(" %d",tree1->data);
+        return;
+    }
+}
+void printing(struct tree *tree1,int path[],int pathlen)
+{
+    if(tree1==NULL)
+    {
+        return;
+    }
+    path[pathlen]=tree1->data;
+    pathlen++;
+    if(tree1->left==NULL && tree1->right==NULL)
+    {
+        print(path,pathlen);
+    }
+    else{
+    printing(tree1->left,path,pathlen);
+    printing(tree1->right,path,pathlen);
+    }
+}
+
+void print(int path[],int pathlen)
+{
+    int i;
+    for(i=0;i<pathlen;i++)
+    {
+        printf(" %d",path[i]);
+    }
+}
+int diameter(struct tree *tree1)
+{
+    if(tree1==NULL)
+    {
+        return 0;
+    }
+    int left=diameter(tree1->left);
+    int right=diameter(tree1->right);
+    diameter1=left+right+1;
+    if(max1<diameter1)
+    {
+        max1=diameter1;
+    }
+    return max(left,right)+1;
+
+}
+
+int max(int i,int j)
+{
+    if(i>j)
+    {
+        return i;
+    }
+    else
+    {
+        return j;
+    }
+}
+
+struct tree *newnode(int data)
+{
+    struct tree *tree2=(struct tree *)malloc(sizeof(struct tree));
+    tree2->data=data;
+    tree2->left=NULL;
+    tree2->right=NULL;
+    return tree2;
+};
