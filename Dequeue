@@ -1,0 +1,36 @@
+struct Listnode
+{
+    int data;
+    struct Listnode *next;
+};
+struct Listnode *temp;
+struct Queue
+{
+    struct Listnode *front1;
+    struct Listnode *rear;
+}*q;
+struct Queue *createqueue()
+{
+    struct Queue *q;
+    q=(struct Queue *)malloc(sizeof(struct Queue));
+    q->front1=NULL;
+    q->rear=NULL;
+    return q;
+};
+int dequeue(struct Queue *q)
+{
+    temp=(struct Listnode *)malloc(sizeof(struct Listnode));
+    temp=q->front1;
+    temp1=(struct Listnode *)malloc((sizeof(struct Listnode)));
+    temp1=q->front1->data;
+    if(temp==NULL)
+    {
+        printf(" Queue is empty ");
+    }
+    else
+    {
+     q->front1=q->front1->next;
+    }
+    return temp1;
+
+}
