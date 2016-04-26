@@ -77,3 +77,16 @@ int dequeue(struct Queue *q)
     return temp1;
 
 }
+
+
+int isEmptyQueue(struct Queue *q)
+{
+    if(q->front1==NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
