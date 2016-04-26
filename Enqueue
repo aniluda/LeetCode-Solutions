@@ -1,0 +1,37 @@
+struct Listnode
+{
+    int data;
+    struct Listnode *next;
+};
+struct Listnode *temp;
+struct Queue
+{
+    struct Listnode *front1;
+    struct Listnode *rear;
+}*q;
+struct Queue *createqueue()
+{
+    struct Queue *q;
+    q=(struct Queue *)malloc(sizeof(struct Queue));
+    q->front1=NULL;
+    q->rear=NULL;
+    return q;
+};
+void enqueue(struct Queue *q, int **data)
+{
+    struct Listnode *newnode;
+    newnode=(struct Listnode *)malloc((sizeof(struct Listnode)));
+    newnode->data=data;
+    newnode->next=NULL;
+    if(q->front1==NULL)
+    {
+        q->front1=newnode;
+        q->rear=q->front1;
+    }
+    else
+    {
+        q->rear->next=newnode;
+        q->rear=q->rear->next;
+
+    }
+}
