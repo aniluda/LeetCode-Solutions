@@ -1,3 +1,10 @@
+/*
+     Author: Uda Anil Kumar 
+     Problem : Count total set bits in all numbers from 1 to n
+     Input: n = 3
+     Output:  4
+     Example : Input n is 3 then total set bits count is 4 that is 011 , 010 , 001.
+*/
 import java.util.Scanner;
 public class CountBits {
 	public static void main(String[] args) {
@@ -6,7 +13,8 @@ public class CountBits {
 		n = in.nextInt();
 		System.out.println("The Setbits from 1 to "+ n+" is: "+CountSetBits(n));
  	}
-    
+        
+	/* This function is to count total set bits from 1 to n. */
 	public static int CountSetBits(int n){
 		double Pos = FindLeftMostBitPos(n);
         if(n == 0 || n == 1){ return n;}
@@ -19,6 +27,7 @@ public class CountBits {
 		}
 	}
 	
+	/* This function is t0 Find LeftmostBit in the given number n. */
 	public static int FindLeftMostBitPos(int n){
 		int count = 0;
 		while(n>1){
