@@ -17,7 +17,9 @@ public class CountBits {
 	/* This function is to count total set bits from 1 to n. */
 	public static int CountSetBits(int n){
 		double Pos = FindLeftMostBitPos(n);
-        if(n == 0 || n == 1){ return n;}
+		
+                if(n == 0 || n == 1){ return n;}
+		
 		if((1 << (int)(Pos + 1))- 1 == n){
 			 return (int) (Pos+1)* (1 << (int)Pos);
 		}
