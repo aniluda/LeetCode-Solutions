@@ -29,7 +29,7 @@ public class CountBits {
 		}
 	}
 	
-	/* This function is t0 Find LeftmostBit in the given number n. */
+	/* This function is to Find LeftmostBit in the given number n. */
 	public static int FindLeftMostBitPos(int n){
 		int count = 0;
 		while(n>1){
