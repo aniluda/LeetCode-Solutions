@@ -1,0 +1,138 @@
+#include <stdio.h> 
+#include <string.h> 
+struct tree *newnode(int data); 
+void push(int **data); 
+struct list 
+{ 
+int data; 
+struct list *next; 
+}*top, *currentlevel=NULL,*nextlevel=NULL; 
+struct tree 
+{ 
+int data; 
+struct tree *left; 
+struct tree *right; 
+}; 
+
+main() 
+{ 
+struct tree *tree1=newnode(1); 
+tree1->left=newnode(2); 
+tree1->right=newnode(3); 
+tree1->left->left=newnode(4); 
+tree1->left->right=newnode(5); 
+tree1->right->left=newnode(6); 
+tree1->right->right=newnode(7); 
+tree1->left->left->left=newnode(8); 
+tree1->left->left->right=newnode(9); 
+tree1->left->right->left=newnode(10); 
+tree1->left->right->right=newnode(11); 
+tree1->right->left->left=newnode(12); 
+tree1->right->left->right=newnode(13); 
+tree1->right->right->left=newnode(14); 
+tree1->right->right->right=newnode(15); 
+zigzag(tree1); 
+} 
+int zigzag(struct list *tree1) 
+{ 
+int lefttoright=1; 
+push(tree1); 
+while(!isEmpty()) 
+{ 
+struct tree *tree3=pop(); 
+printf(" %d",tree3->data); 
+if(lefttoright) 
+{ 
+if(tree3->left!=0) 
+{ 
+push1(tree3->left); 
+} 
+if(tree3->right!=0) 
+{ 
+push1(tree3->right); 
+} 
+} 
+else 
+{ 
+if(tree3->right!=0) 
+{ 
+push1(tree3->right); 
+} 
+if(tree3->left!=0) 
+{ 
+push1(tree3->left); 
+} 
+} 
+while(isEmpty()) 
+{ 
+lefttoright=1-lefttoright; 
+swap(); 
+} 
+} 
+} 
+void swap() 
+{ 
+currentlevel=nextlevel; 
+nextlevel=NULL; 
+} 
+int pop() 
+{ 
+struct list *ptr; 
+ptr=currentlevel->data; 
+if(currentlevel==NULL) 
+{ 
+printf(" overflow "); 
+} 
+currentlevel=currentlevel->next; 
+return ptr; 
+} 
+int isEmpty() 
+{ 
+if(currentlevel==NULL) 
+{ 
+return 1; 
+} 
+else 
+{ 
+return 0; 
+} 
+} 
+struct tree *newnode(int data) 
+{ 
+struct tree *tree3; 
+tree3=(struct tree *)malloc(sizeof(struct tree)); 
+tree3->data=data; 
+tree3->left=NULL; 
+tree3->right=NULL; 
+return tree3; 
+} 
+void push(int **data) 
+{ 
+struct list *p1=(struct list *)malloc(sizeof(struct list)); 
+p1->data=data; 
+if(currentlevel==NULL) 
+{ 
+p1->next=NULL; 
+currentlevel=p1; 
+} 
+else 
+{ 
+p1->next=currentlevel; 
+currentlevel=p1; 
+} 
+} 
+void push1(int **data) 
+{ 
+struct list *p11=(struct list *)malloc(sizeof(struct list)); 
+p11->data=data; 
+if(nextlevel==NULL) 
+{ 
+p11->next=NULL; 
+nextlevel=p11; 
+} 
+else 
+{ 
+p11->next=nextlevel; 
+nextlevel=p11; 
+} 
+}
