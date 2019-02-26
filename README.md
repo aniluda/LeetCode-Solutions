@@ -1,1 +1,1 @@
-# My-solutions-for-Datastrcture
+# LeetCode Solutions
