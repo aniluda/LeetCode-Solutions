@@ -1,0 +1,665 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct tree *Mirror_tree(struct tree *tree1);
+int path[50];
+static int pathlen=0;
+struct Listnode
+{
+    int data;
+    struct Listnode *next;
+};
+struct Listnode *temp;
+struct Queue
+{
+    struct Listnode *front1;
+    struct Listnode *rear;
+}*q;
+
+
+struct tree
+{
+    int data;
+    struct tree *left;
+    struct tree *right;
+};struct tree *temp1;
+struct Stack
+{
+    int data;
+    struct Stack *next;
+}*top,*top1;
+struct node* newNode(int data)
+{
+    struct tree *Tree;
+    Tree=(struct tree*)malloc((sizeof(struct tree)));
+    Tree->data=data;
+    Tree->left=NULL;
+    Tree->right=NULL;
+};
+
+struct Queue *createqueue()
+{
+    struct Queue *q;
+    q=(struct Queue *)malloc(sizeof(struct Queue));
+    q->front1=NULL;
+    q->rear=NULL;
+    return q;
+};
+void enqueue(struct Queue *q, int **data)
+{
+    struct Listnode *newnode;
+    newnode=(struct Listnode *)malloc((sizeof(struct Listnode)));
+    newnode->data=data;
+    newnode->next=NULL;
+    if(q->front1==NULL)
+    {
+        q->front1=newnode;
+    //    printf(" q->front1 is %d",q->front1);
+        q->rear=q->front1;
+    }
+    else
+    {
+        q->rear->next=newnode;
+        q->rear=q->rear->next;
+
+    //    printf(" q-> rear is %d",q->rear);
+    }
+}
+
+int dequeue(struct Queue *q)
+{
+    temp=(struct Listnode *)malloc(sizeof(struct Listnode));
+    temp=q->front1;
+    temp1=(struct Listnode *)malloc((sizeof(struct Listnode)));
+    temp1=q->front1->data;
+//    printf(" \n q->front1 %d",temp);
+    if(temp==NULL)
+    {
+        printf(" Queue is empty ");
+    }
+    else
+    {
+     q->front1=q->front1->next;
+    }
+    return temp1;
+
+}
+void inorder(struct tree *tree1)
+{
+    if(tree1==NULL)
+    {
+        return;
+    }
+    inorder(tree1->left);
+    printf(" %d",tree1->data);
+    inorder(tree1->right);
+}
+void search(struct tree *tree1,int root)
+{
+    struct Queue *q;
+    q=createqueue();
+    enqueue(q,tree1);
+    while(isEmptyQueue(q))
+    {
+        struct tree *tree2;
+        tree2=dequeue(q);
+        if(root==tree2->data)
+        {
+            printf(" Element found ");
+        }
+        if(tree2->left!=0)
+        {
+            enqueue(q,tree2->left);
+        }
+        if(tree2->right!=0)
+        {
+            enqueue(q,tree2->right);
+        }
+    }
+}
+/*
+void Levelorder(struct tree *tree1)
+{
+    struct Queue *q;
+    struct tree *tree;
+    q=createqueue();
+     //   printf( " tree1 is %d",tree1);
+   enqueue(q,tree1);
+   while(isEmptyQueue(q))
+    {
+        struct tree *tree;
+        //print_queue(q);
+        tree=dequeue(q);
+    //    printf( "tree is %d",tree);
+        printf(" Levelorder traversal is %d \n",tree->data);
+        enqueue(q,tree->left);
+        enqueue(q,tree->right);
+        // free(tree);
+
+    }
+} */
+void search2(struct tree *tree1,int data)
+{
+    struct Queue *q;
+    q=createqueue();
+    enqueue(q,tree1);
+    while(isEmptyQueue(q))
+    {
+        struct tree *temp;
+        temp=dequeue(q);
+        if(temp->data==data)
+        {
+            printf(" item found ");
+        }
+        if(temp->left)
+        {
+            enqueue(q,temp->left);
+        }
+        if(temp->right)
+        {
+            enqueue(q,temp->right);
+        }
+    }
+}
+
+int maximum(struct tree *tree1)
+{
+    static int  max=0;
+    struct Queue *q;
+    struct tree *tree3;
+    q=createqueue();
+    enqueue(q,tree1);
+    while(isEmptyQueue(q))
+    {
+        tree3=dequeue(q);
+        if(max < tree3->data)
+        {
+            max=tree3->data;
+        }
+        if(tree3->left!=0)
+        {
+        enqueue(q,tree3->left);
+        printf(" %d \n",tree3->left->data);
+        }
+        if(tree3->right!=0){
+        enqueue(q,tree3->right);
+        printf(" %d \n",tree3->right->data);   }
+    }
+    return max;
+}
+
+int isEmptyQueue(struct Queue *q)
+{
+    if(q->front1==NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+/*int depth(struct tree *tree1)
+{
+    if(tree1==NULL)
+    {
+        return 0;
+    }
+    int left=depth(tree1->left);
+    int right=depth(tree1->right);
+    if(left<right)
+    {
+        return left+1;
+    }
+    else
+    {
+        return right+1;
+    }
+}*/
+
+int inserttree(struct tree *tree1,int root)
+{
+    struct tree *tree4;
+    struct Queue *q;
+    tree4=(struct tree *)malloc(sizeof(struct tree));
+    tree4->data=root;
+    tree4->left=NULL;
+    tree4->right=NULL;
+    q=createqueue(q);
+    if(!tree4)
+    {
+        printf(" Memory Error ");
+    }
+    else{
+        tree4->data=root;
+    }
+    enqueue(q,tree1);
+    while(isEmptyQueue(q))
+    {
+        struct tree *temp;
+        temp=dequeue(q);
+        if(temp->left!=NULL)
+        {
+            enqueue(q,temp->left);
+        }
+        else
+        {
+            temp->left=tree4;
+
+
+        }
+        if(temp->right!=NULL)
+        {
+            enqueue(q,temp->right);
+        }
+        else
+        {
+            temp->right=tree4;
+            break;
+        }
+    }
+}
+int a[100];
+    int j;
+int i=0;
+void reverselevelorder(struct tree *tree1)
+{
+    struct Queue *q;
+    q=createqueue();
+    enqueue(q,tree1);
+    while(isEmptyQueue(q))
+    {
+        struct tree *tree2;
+        tree2=dequeue(q);
+        a[i]=tree2->data;
+        printf(" %d",a[i]);
+        i++;
+        if(tree2->right!=0)
+            {
+            enqueue(q,tree2->right);
+            }
+        if(tree2->left!=0)
+        {
+            enqueue(q,tree2->left);
+        }
+
+    }
+    printf(" \n   Reverse level order   \n");
+    for(j=i;j>=0;j--)
+    {
+        printf(" %d",a[j]);
+    }
+
+}
+
+void deletetree(struct tree *tree1)
+{
+    if(tree1==NULL)
+    {
+        return;
+    }
+    deletetree(tree1->left);
+    deletetree(tree1->right);
+    free(tree1);
+}
+int level=0;
+void leveloftree_withoutrecursion(struct tree *tree1)
+{
+    struct tree *tree2;
+    struct Queue *q;
+    q=createqueue();
+    enqueue(q,tree1);
+    enqueue(q,NULL);
+    while(isEmptyQueue(q))
+    {
+        tree2=dequeue(q);
+        printf(" %d",tree2->data);
+        if(tree2==NULL)
+        {
+            enqueue(q,NULL);
+            tree2=dequeue(q);
+            level++;
+        }
+         printf(" %d",tree2->left->data);
+        if(tree2->left!=NULL)
+        {
+            enqueue(q,tree2->left);
+            printf(" %d",tree2->left->data);
+        }
+        if(tree2->right!=NULL)
+        {
+            enqueue(q,tree2->right);
+            printf(" %d",tree2->right->data);
+        }
+    }
+  //  printf(" Level of tree without recursion %d  ",level);
+}
+int diameter=0;
+int diametertree(struct tree *tree1)
+{
+    if(tree1==NULL)
+    {
+        return 0;
+    }
+    int dim,r_len,l_len=0;
+    l_len=diametertree(tree1->left);
+    r_len=diametertree(tree1->right);
+   // printf(" %d",r_len);
+    dim=l_len+r_len+1;
+    if(dim>diameter)
+    {
+        diameter =dim;
+    }
+       return (max(l_len,r_len)  + 1);
+}
+int max(int a,int b)
+{
+    if(a>b)
+    {
+        return a;
+    }
+    else{
+        return b;
+    }
+}
+
+
+
+void insert1(struct tree *tree1)
+{
+    struct Queue *q;
+    q=createqueue();
+    enqueue(q,tree1);
+
+}
+void preorder(struct tree *tree4)
+{
+    if(tree4==NULL)
+    {
+        return;
+    }
+    printf(" %d",tree4->data);
+    preorder(tree4->left);
+    preorder(tree4->right);
+}
+int main()
+{
+    struct Queue *q;
+    struct tree *tree1=newNode(18);
+    tree1->left=newNode(25);
+    tree1->right=newNode(3);
+    tree1->left->left=newNode(4);
+    tree1->left->right=newNode(5);
+    tree1->right->left=newNode(6);
+    tree1->right->right=newNode(7);
+    tree1->left->left->left=newNode(8);
+    tree1->left->left->right=newNode(9);
+    tree1->left->right->left=newNode(400);
+    tree1->left->right->right=newNode(11);
+    tree1->right->left->left=newNode(12);
+    tree1->right->left->right=newNode(13);
+    tree1->right->right->left=newNode(14);
+    tree1->right->right->right=newNode(15);
+    tree1->right->right->right->left=newNode(415);
+    tree1->right->right->right->right=newNode(416);
+    tree1->right->right->right->right->left=newNode(417);
+    tree1->right->right->right->right->left->left=newNode(418);
+    tree1->right->left->left->right=newNode(1002);
+
+   // do_balance(tree1);
+    //diametertree(tree1);
+  //  printf(" the diameter of tree is %d",diameter);
+   //   printing_paths(tree1);
+   // inorder(tree1);
+     //inserttree(tree1,15);
+   //  printf(" \n inorder traversal begins \n");
+    //  reverselevelorder(tree1);
+      //deletetree(tree1);
+     //  leveloftree_withoutrecursion(tree1);
+   //  inorder(tree1);
+    //printf("\n");
+//   int max1=depth(tree1);
+  //   printf(" The depth of the tree is %d \n",max1);
+//     int max3=maximum(tree1);
+  //   printf(" The Maximum Element of the tree is %d \n",max3);
+ // Levelorder(tree1);
+
+   //  printpaths(tree1,path,0);
+   struct tree *tree3=Mirror_tree(tree1);
+   inorder(tree3);
+   printf(" \n preorder begins \n ");
+   preorder(tree3);
+    return 0;
+}
+
+struct tree *newnode(int data)
+{
+struct tree *tree3;
+tree3=(struct tree *)malloc(sizeof(struct tree));
+tree3->data=data;
+tree3->left=NULL;
+tree3->right=NULL;
+return tree3;
+}
+
+
+struct tree *Mirror_tree(struct tree *tree1)
+{
+    struct Queue *q;
+    q=createqueue();
+    enqueue(q,tree1);
+    while(isEmptyQueue(q))
+    {
+        struct tree *tree2;
+        tree2=dequeue(q);
+        struct tree *tree3;
+        tree3=tree2->left;
+        tree2->left=tree2->right;
+        tree2->right=tree3;
+        if(tree2->left!=0)
+        {
+            enqueue(q,tree2->left);
+        }
+        if(tree2->right!=0)
+        {
+            enqueue(q,tree2->right);
+        }
+    }
+    return tree1;
+}
+
+void push(int **data)
+{
+    struct Stack *temp;
+    temp=(struct Stack *)malloc(sizeof(struct Stack));
+    struct tree *tree5;
+    temp->data=data;
+    tree5=temp->data;
+    printf(" %d ",tree5->data);
+    if(top==NULL)
+    {
+        top=temp;
+        temp->next=NULL;
+    }
+    else
+    {
+        temp->next=top;
+        top=temp;
+    }
+}
+struct Stack  *pop()
+{
+    struct Stack *temp=top;
+    struct tree *tree5;
+    tree5=temp->data;
+  //  printf(" temp is %d ",temp);
+    if(top==NULL)
+    {
+        printf(" Stack empty ");
+    }
+    else
+    {
+        top=top->next;
+        free(temp);
+        return tree5;
+    }
+    //display();
+}
+int balance(struct tree *tree1)
+{
+    if(tree1==NULL)
+    {
+        return 0;
+    }
+ int left=balance(tree1->left);
+ int right=balance(tree1->right);
+    if(left>right)
+    {
+       return left+1;
+    }
+    else
+    {
+      return right+1;
+    }
+
+}
+void do_balance(struct tree *root)
+{
+    struct Queue *q;
+    q=createqueue();
+    enqueue(q,root);
+    while(isEmptyQueue(q))
+    {
+        struct tree *tree2;
+        tree2=dequeue(q);
+        int x=balance(tree2->left);
+        printf(" \n tree2->left is %d \n ",x);
+        int x1=balance(tree2->right);
+        printf(" \n  tree2->right is %d \n  ",x1);
+        if(abs(x-x1)==1 || abs(x-x1)==0)
+        {
+            printf(" tree is balanced %d",tree2->data);
+        }
+        else
+        {
+           printf(" tree is unbalanced %d ",tree2->data);
+        }
+        if(tree2->left!=0)
+        {
+            enqueue(q,tree2->left);
+        }
+        if(tree2->right!=0)
+        {
+            enqueue(q,tree2->right);
+        }
+    }
+}
+void display()
+{
+    struct Stack *temp5;
+    temp5=top;
+    struct tree *tree3,*tree4;
+    tree3=top;
+    tree4=tree3->data;
+    printf(" %d",tree4->data);
+    while(temp5!=NULL)
+    {
+        tree3=temp5->next;
+        if(tree3==NULL)
+        {
+            break;
+        }
+        tree4=tree3->data;
+       // printf(" %d ",tree4);
+        printf(" %d",tree4->data);
+       temp5= temp5->next;
+    }
+}
+int isStackEmpty()
+{
+    if(top==NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+void push1(int **data)
+{
+    struct Stack *temp;
+    temp=(struct Stack *)malloc(sizeof(struct Stack));
+    struct tree *tree3;
+    temp->data=data;
+    tree3=temp->data;
+    printf(" %d ",tree3->data);
+    if(top1==NULL)
+    {
+        top1=temp;
+        temp->next=NULL;
+    }
+    else
+    {
+        temp->next=top;
+        top1=temp;
+    }
+}
+void  pop1()
+{
+    struct Stack *temp=top1;
+    struct tree *tree5;
+    tree5=temp->data;
+  //  printf(" temp is %d ",temp);
+    if(top1==NULL)
+    {
+        printf(" Stack empty ");
+    }
+    else
+    {
+        top1=top1->next;
+        free(temp);
+        return tree5;
+    }
+    //display();
+}
+int isStackEmpty1()
+{
+    if(top1==NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+void printpaths(struct tree *tree,int path[],int pathlen)
+{
+    if(tree==NULL)
+    {
+        return;
+    }
+    path[pathlen]=tree->data;
+    pathlen++;
+    if(tree->left==NULL && tree->right==NULL)
+    {
+        printArray(path,pathlen);
+    }
+    else
+    {
+        printpaths(tree->left,path,pathlen);
+        printpaths(tree->right,path,pathlen);
+    }
+}
+
+void printArray(int a[],int j)
+{
+    int k;
+    for(k=0;k<=j;k++)
+    {
+        printf(" %d ",a[k]);
+    }
+    printf(" \n ");
+}
